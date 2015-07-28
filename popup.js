@@ -5,7 +5,8 @@ chrome.tabs.query({'active': true}, function (tabs) {
 	reg=/http:(.*)song\//;
 	if(reg.test(url))
 	{
-		var sid = url.replace(reg, "");
+		//$("#SongUrl").html("Loding...");
+		/*var sid = url.replace(reg, "");
 		sid = sid.substr(0,sid.length-1);
 
 		var req = new XMLHttpRequest();
@@ -19,9 +20,15 @@ chrome.tabs.query({'active': true}, function (tabs) {
 				console.log(req.responseText);
 			}
 		}*/	
-		req.send(null);	
+		//req.send(null);	
 		//alert(req.responseText);
-		$("#SongUrl").html(req.responseText);		
+		//$("#SongUrl").html(req.responseText);		
+		//document.getElementById("SongUrl").innerHTML= req.responseText
+		//chrome.extension.sendMessage({cmd: "getSongUrl"});
+		chrome.storage.local.get('sUrl', function(data) {
+			//console.log(data.sUrl);
+			$("#SongUrl").html(data.sUrl)
+		});
 	}else {
 		$("#Text").html("请在songtaste歌曲播放页面使用此插件！");
 	}

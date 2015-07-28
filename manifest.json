@@ -3,11 +3,11 @@
   "version": "0.1.0",
   "manifest_version": 2,  
   "description": "display song's URL", 
-  //"background": { "scripts": ["background.js"] },
+  "background": { "scripts": ["background.js"] },
   "permissions": [
 	"tabs",
-	"http://www.baidu.com",
-	"http://*/"
+	"http://*/",
+	"storage" 
 	],
   "browser_action": {  
     "default_icon": "icon.png" ,
