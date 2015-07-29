@@ -53,18 +53,53 @@ function checkForValidUrl(tabId, changeInfo, tab)
 		
 	}
 	
-	/*chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
+	if(changeInfo.status == "complete")
 	{
-		if(request.cmd == 'getSongUrl')
+		var url = tab.url;
+
+		reg=/http:(.*)song\//;
+		if(reg.test(url))
 		{
-			//alert(SongUrl);
-			//sendResponse({url: g_SongUrl});
-			alert(request.cmd);
-		}
-	};*/
+			chrome.tabs.executeScript(tab.id, { file: 'jquery.min.js' }, function()
+			{
+				chrome.tabs.executeScript(tab.id, {file: 'content.js'});
+			});
+			
+		}	
+	}
 };
 	
 
 
 chrome.tabs.onUpdated.addListener(checkForValidUrl);
+
+chrome.extension.onMessage.addListener(function(request, sender, sendResponse)
+{
+	if(request.cmd == 'getSongUrl')
+	{
+		/*chrome.tabs.query({'active': true}, function (tabs,sndResponse) {
+			/*var url = tabs[0].url;
+			
+			var sid = url.replace(reg, "");
+			sid = sid.substr(0,sid.length-1);
+
+			var req = new XMLHttpRequest();
+	
+			req.open("GET", "http://songtastec.coding.io/index.php?sid="+sid, false);
+	
+			req.send(null);
+
+		
+			
+			alert(request.cmd);
+			sendResponse({url: "test"});
+		});*/
+		chrome.storage.local.get('sUrl', function(data) {
+			sendResponse({url: data.sUrl});
+		});
+		return true;
+		
+	}
+	return false;
+});
 
